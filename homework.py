@@ -16,23 +16,25 @@ class Calculator:
         # Записываем в список все поступившие значения record.amount за сегодня
         for record in self.records:
             # Записываем в список, если дата соответствует
-            if record.date == Record.today:
+            if record.date == dt.date.today():
                 amount_list.append(record.amount)
+        
         # Суммируем значения в списке
         sum_amount = sum(amount_list)
-        # Возврат результата
+
         return sum_amount
 
     def get_week_stats(self):
         amount_list_week = []
         # Находим дату начала диапазона
         day_delta = dt.timedelta(days=7)
-        date_start = Record.today - day_delta
+        date_start = dt.date.today() - day_delta
 
         # Отбираем данные за неделю
         for record in self.records:
-            if date_start <= record.date <= Record.today:
+            if date_start <= record.date <= dt.date.today():
                 amount_list_week.append(record.amount)
+        
         # Находим их сумму
         sum_amount = sum(amount_list_week)
 
@@ -112,6 +114,7 @@ class CashCalculator(Calculator):
         rate_list = self.exchange_rate(currency)
         currency_rate = rate_list[0]
         chosen_currency = rate_list[1]
+        
         # Определяем сумму потраченных денег в выбранной валюте
         amount_of_money_rate = sum_amount / currency_rate
 
